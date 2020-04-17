@@ -1,0 +1,14 @@
+<html>
+<body>
+	<h1> {{ msg }} </h1>
+	<h2>Returning to amazon page now....</h2>
+	<h2><a href = "{{ url_for('amazon_addorder') }}">BACK</a></h2>
+</body>
+<script type="text/javascript"><!--
+	setTimeout('Redirect()', 1500);
+	function Redirect()
+	{
+		location.href = "{{ url_for('amazon_addorder') }}";
+	}
+</script>
+</html>

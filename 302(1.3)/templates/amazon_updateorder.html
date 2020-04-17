@@ -1,0 +1,201 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+	  $("#myInput").on("keyup", function() {
+	    var value = $(this).val().toLowerCase();
+	    $("#myTable1 tr").filter(function() {
+	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	    });
+	  });
+	});
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+	box-sizing: border-box;
+}
+
+#myInput {
+	background-image: url('/css/searchicon.png');
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
+	width: 100%;
+	font-size: 16px;
+	padding: 12px 20px 12px 40px;
+	border: 1px solid #ddd;
+	margin-bottom: 12px;
+}
+
+#myTable {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #ddd;
+	font-size: 18px;
+}
+
+#myTable th, #myTable td {
+	text-align: left;
+	padding: 12px;
+}
+
+#myTable tr {
+	border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+	background-color: #f1f1f1;
+}
+</style>
+</head>
+<body>
+		<img src="{{ url_for('static', filename='img/amazon_logo.PNG') }}" width="140" height="95" alt="Amazon">
+		<h2>Order Sent</h2>
+		<h4><a href="{{ url_for('amazon_addorder') }}">Return</a></h4>
+
+		<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for ID.." title="Type in a ID">
+		<hr>
+
+		<table id="myTable">
+			<tr class="header">
+				<th onclick="sortTable(0)">Order ID</th>
+			    <th onclick="sortTable(1)">Sender Name</th>
+			    <th onclick="sortTable(2)">Sender Address</th>
+			    <th onclick="sortTable(3)">Sender Contact</th>
+			    <th onclick="sortTable(4)">Receiver name</th>
+			    <th onclick="sortTable(5)">Receiver Address</th>
+			    <th onclick="sortTable(6)">Receiver Contact</th>
+			    <th onclick="sortTable(7)">Postal Code</th>
+
+			</tr>
+			<tbody id="myTable1">
+				 
+			{% for row in rows %}
+				<tr>
+					<td>{{row[0]}}</td>
+					<td>{{row[1]}}</td>
+					<td>{{row[2]}}</td>
+					<td>{{row[3]}}</td>
+					<td>{{row[4]}}</td>
+					<td>{{row[5]}}</td> 
+					<td>{{row[6]}}</td> 
+					<td>{{row[7]}}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+		<br><hr><br>
+
+		<form action="{{ url_for('cannelorder') }}" method="POST">
+			Cannel the order: <input type="text" name="complete" placeholder="Type the order ID.." />
+			<br><br>
+			<input type="submit" value="submit">
+		</form>
+		<hr>
+		<h3>Update the data by matching the order ID:</h3>
+
+		<form action="{{ url_for('updateorder') }}" method="POST">
+			Order ID: <input type="text" name="id"/><br><br>
+			Sender Name: <input type="text" name="name"/><br><br>
+			Sender Address: <input type="text" name="add"/><br><br>
+			Sender Contact: <input type="number" name="scon"/><br><br>
+			Receiver name: <input type="text" name="rname"/><br><br>
+			Receiver Address: <input type="text" name="radd"/><br><br>
+			Receiver Contact: <input type="number" name="rcon"/><br><br>
+			Postal Code: <input type="text" name="pos" /><br><br>
+			<input type="submit" value="update" onclick="collect(this.form)" />
+		</form>
+
+		<script>
+			function myFunction() {
+				var input, filter, table, tr, td, i, txtValue;
+				input = document.getElementById("myInput");
+				filter = input.value.toUpperCase();
+				table = document.getElementById("myTable");
+				tr = table.getElementsByTagName("tr");
+				for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName("td")[0];
+					if (td) {
+						txtValue = td.textContent || td.innerText;
+						if (txtValue.toUpperCase().indexOf(filter) > -1) {
+							tr[i].style.display = "";
+						} else {
+							tr[i].style.display = "none";
+						}
+					}
+				}
+			}
+
+			function sortTable(n) {
+			    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+			    table = document.getElementById("myTable");
+			    switching = true;
+			    //Set the sorting direction to ascending:
+			    dir = "asc"; 
+			    /*Make a loop that will continue until
+			    no switching has been done:*/
+			    while (switching) {
+			    //start by saying: no switching is done:
+			    switching = false;
+			    rows = table.rows;
+			    /*Loop through all table rows (except the
+			    first, which contains table headers):*/
+			    for (i = 1; i < (rows.length - 1); i++) {
+			      //start by saying there should be no switching:
+			      shouldSwitch = false;
+			      /*Get the two elements you want to compare,
+			      one from current row and one from the next:*/
+			      x = rows[i].getElementsByTagName("TD")[n];
+			      y = rows[i + 1].getElementsByTagName("TD")[n];
+			      /*check if the two rows should switch place,
+			      based on the direction, asc or desc:*/
+			      if (dir == "asc") {
+			      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+			        //if so, mark as a switch and break the loop:
+			        shouldSwitch= true;
+			        break;
+			      }
+			      } else if (dir == "desc") {
+			      if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+			        //if so, mark as a switch and break the loop:
+			        shouldSwitch = true;
+			        break;
+			      }
+			      }
+			    }
+			    if (shouldSwitch) {
+			      /*If a switch has been marked, make the switch
+			      and mark that a switch has been done:*/
+			      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+			      switching = true;
+			      //Each time a switch is done, increase this count by 1:
+			      switchcount ++;      
+			    } else {
+			      /*If no switching has been done AND the direction is "asc",
+			      set the direction to "desc" and run the while loop again.*/
+			      if (switchcount == 0 && dir == "asc") {
+			      dir = "desc";
+			      switching = true;
+			      }
+			    }
+			    }
+			  }
+			  var coll = document.getElementsByClassName("collapsible");
+			  var i;
+
+			  for (i = 0; i < coll.length; i++) {
+			    coll[i].addEventListener("click", function() {
+			    this.classList.toggle("active");
+			    var content = this.nextElementSibling;
+			    if (content.style.maxHeight){
+			      content.style.maxHeight = null;
+			    } else {
+			      content.style.maxHeight = content.scrollHeight + "px";
+			    } 
+			    });
+			  }
+		</script>
+
+</body>
+</html>

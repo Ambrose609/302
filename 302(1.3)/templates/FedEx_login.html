@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<img src="{{ url_for('static', filename='img/fedex_logo.PNG') }}" width="140" height="95" alt="FedEx">
+	<h2>Login</h2>
+
+	<form action="fedexlogining" method="POST">
+		User Name: <input type="text" name="FedEx">
+		<br><br>
+		Password: <input type="password" name="Password">
+		<br><br>
+		<input type="submit">
+	</form>
+
+</body>
+</html>

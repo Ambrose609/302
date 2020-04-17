@@ -1,0 +1,14 @@
+<html>
+<body>
+	<h1> {{ msg }} </h1>
+	<h2>Returning to FedEx page now....</h2>
+	<h2><a href = "{{ url_for('FedEx_login') }}">BACK</a></h2>
+</body>
+<script type="text/javascript"><!--
+	setTimeout('Redirect()', 1500);
+	function Redirect()
+	{
+		location.href = "{{ url_for('FedEx_login') }}";
+	}
+</script>
+</html>

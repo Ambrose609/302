@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<img src="{{ url_for('static', filename='img/amazon_logo.PNG') }}" width="140" height="95" alt="Amazon">
+	<h2> Login</h2>
+
+	<form action="amazonlogining" method="POST">
+		User Name: <input type="text" name="Amazon">
+		<br><br>
+		Password: <input type="password" name="Password">
+		<br><br>
+		<input type="submit">
+	</form>
+
+</body>
+</html>

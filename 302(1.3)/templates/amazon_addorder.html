@@ -1,0 +1,23 @@
+<html>
+<body>
+	<h2><img src="{{ url_for('static', filename='img/amazon_logo.PNG') }}" width="140" height="95" alt="Amazon"></h2>
+	<h3>Please input order details</h3>
+	<div id="entries"> 
+		<form action= "{{ url_for('addorder') }}"  method = "POST" name ="myform">
+			Order ID: <input type="text" name="id"/><br><br>
+			Sender Name: <input type="text" name="name"/><br><br>
+			Sender Address: <input type="text" name="add"/><br><br>
+			Sender Contact: <input type="number" name="scon"/><br><br>
+			Receiver name: <input type="text" name="rname"/><br><br>
+			Receiver Address: <input type="text" name="radd"/><br><br>
+			Receiver Contact: <input type="number" name="rcon"/><br><br>
+			Postal Code: <input type="text" name="pos"/><br><br>
+
+			<input type="submit" value="submit" onclick="collect(this.form)"/>
+		</form>
+		<button><a href="{{ url_for('index') }}">Return to Index Page</a></button><br><br>
+
+	</div>
+	<button><a href="{{ url_for('amazon_updateorder') }}">Check and Update Order</a></button>
+</body>
+</html>
